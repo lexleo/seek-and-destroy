@@ -61,3 +61,7 @@ Thus, all available keys are listed below:
 * `--remove` — remove all bak files from specified folder (should be used with `--folder`)
 * `-v` or `--version` — version of seek-and-destroy
 * `-h` or `--help` — show help message
+
+### Author, license and so on
+
+Seek-and-destroy is absolutely free. You can contact author by email: ins227@gmail.com
