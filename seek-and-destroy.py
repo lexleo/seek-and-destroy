@@ -58,11 +58,11 @@ def seek_and_destroy(folder, regexp, regexp_list):
                         if num_groups > 0:
                             for i in range(num_groups):
                                 text = text[:match.start(i+1) - chars_replaced] + text[match.end(i+1) - chars_replaced:]
-                                chars_replaced = match.end(i+1) - match.start(i+1)
+                                chars_replaced += match.end(i+1) - match.start(i+1)
                                 subs += 1
                         else:
                             text = text[:match.start(0) - chars_replaced] + text[match.end(0) - chars_replaced:]
-                            chars_replaced = match.end(0) - match.start(0)
+                            chars_replaced += match.end(0) - match.start(0)
                             subs += 1
 
                         with open(filename, 'w') as clean_file:
@@ -81,8 +81,8 @@ def seek_and_destroy(folder, regexp, regexp_list):
         print('Log file cannot be created!')
 
 
-def revert(folder):
-    """Revert original files from the bak ones"""
+def restore(folder):
+    """Restore original files from the bak ones"""
     file_list = create_file_list(os.path.relpath(folder))
     try:
         how_much = 0
@@ -97,10 +97,10 @@ def revert(folder):
                 if copied:
                     os.remove(filename)
                     how_much += 1
-        print('Done! {} files reverted!'.format(how_much))
+        print('Done! {} files restored!'.format(how_much))
 
     except:
-        print('Revert cannot be perfomed!')
+        print('Restore cannot be perfomed!')
 
 def archive(folder):
     """Zip all bak files in specified folder"""
@@ -157,13 +157,13 @@ def main():
     parser.add_argument('-r', '--regexp', help='Single regular expression', default=None, action='store')
     parser.add_argument('-f', '--folder', help='Folder to search in', default=None, action='store')
     parser.add_argument('-v', '--version', help='version', action='version', version='%(prog)s 0.5')
-    parser.add_argument('--revert', help='Revert files from bak files (should be used with --folder)', action='store_true')
+    parser.add_argument('--restore', help='Restore files from bak files (should be used with --folder)', action='store_true')
     parser.add_argument('--zip', help='Collect all bak files in single zip file (should be used with --folder)', action='store_true')
-    parser.add_argument('--removebak', help='Remove all bak files from specified folder (should be used with --folder)', action='store_true')
+    parser.add_argument('--remove', help='Remove all bak files from specified folder (should be used with --folder)', action='store_true')
 
     args = vars(parser.parse_args())
 
-    if not args['revert'] and not args['zip'] and not args['removebak']:
+    if not args['restore'] and not args['zip'] and not args['remove']:
 
         if not args['folder']:
             args['folder'] = input("Folder: ")
@@ -183,26 +183,26 @@ def main():
 
         seek_and_destroy(args['folder'], args['regexp'], regexp_list)
 
-    elif args['revert'] and args['zip']:
-        sys.exit('You could not use --revert and --zip at the same time')
+    elif args['restore'] and args['zip']:
+        sys.exit('You could not use --restore and --zip at the same time')
 
-    elif args['removebak'] and (args['zip'] or args['revert']):
-        sys.exit('You could not use --remove-bak with --zip or --revert at the same time')
+    elif args['remove'] and (args['zip'] or args['restore']):
+        sys.exit('You could not use --remove with --zip or --restore at the same time')
 
-    elif args['revert']:
+    elif args['restore']:
         if not args['folder']:
             args['folder'] = input("Folder: ")
-        revert(args['folder'])
+        restore(args['folder'])
 
     elif args['zip']:
         if not args['folder']:
             args['folder'] = input("Folder: ")
         archive(args['folder'])
 
-    elif args['removebak']:
+    elif args['remove']:
         shure = input("Are you sure you want to remove all the backups? Warning!!! "
                       "This operation cannot be undone!\n"
-                      "Type YES if want to proceed or anything else to cancel: ")
+                      "Type YES if you want to proceed or anything else to cancel: ")
         if shure.lower() == 'yes':
             if not args['folder']:
                 args['folder'] = input("Folder: ")
@@ -212,6 +212,7 @@ def main():
 
 
 if __name__ == '__main__':
+
     try:
         main()
     except KeyboardInterrupt:
