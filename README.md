@@ -1,3 +1,6 @@
+![Seek and Destroy](https://image.ibb.co/fSJkGF/seek_and_destroy_mid.jpg)
+
+
 ### What is it?
 
 Seek-and-destroy is a simple python terminal utility, that finds and eliminates regular expressions matсhes in your text-based files. Practically, it's being used to get rid of malicious code injections.
