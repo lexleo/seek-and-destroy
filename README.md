@@ -7,7 +7,7 @@ Seek-and-destroy is a simple python terminal utility, that finds and eliminates 
 
 ### Installation
 
-All you need to execute seek-and-destroy — pure python3 environment. None of third-side packages were used. So, no additional installations needed on Linux and MacOS, python is already there. And all you might need on Windows is to download and install Python3: https://www.python.org/downloads/
+All you need to execute seek-and-destroy — pure python3 environment. None of third-side packages were used. So, no additional installations needed on Linux and MacOS, python is already there. And all you might need on Windows is to [download and install python3](https://www.python.org/downloads/) 
 
 ### Usage
 
